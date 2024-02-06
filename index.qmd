@@ -1,0 +1,101 @@
+---
+title: "2024-02-06-IRT-kennsla"
+---
+
+## Notum tidyvers til að vinna með gögnin
+```{r}
+#| message: false
+library(tidyverse)
+
+## Les inn pisa gögn
+atrida_safn <- read_csv("data/pisa_math.csv")
+
+## Skoða gögnin
+atrida_safn
+```
+
+## IRT í R
+### mirt (Multidimensional Item Response Theory)
+
+## Dæmi: 2pl líkan
+```{r}
+#| output: false
+library(mirt)
+
+## Bý til IRT módel
+fit <- mirt(data = atrida_safn, model =  1, itemtype = "2PL")
+```
+* `data` gögnin sem við ætlum að skoða (í okkar dæmi erum við með aðeins einn kvarða í `atrida_safn` en við erum með fleiri breytur þurfum við að velja þau atriði sem fara inn í svarferlalíkanið)
+* `model` er líkanið okkar við getum keyrt CFA í mirt en þar sem við erum bara með einn kvarða getum við valið 1. Sama og að gera:
+
+```{r}
+#| eval: false
+model <-  mirt.model('f = 1-11') # atriði 1-11
+fit <- mirt(data = atrida_safn, model =  model, itemtype = "2PL")
+```
+
+* itemtype = "2PL" hvers konar IRT líkan ætlum við að keyra t.d. ef við viljum skoða 3pl veldum við itemtype = "3PL"
+
+
+```{r}
+fit
+```
+
+```{r}
+summary(fit)
+```
+
+### Model fit
+```{r}
+M2(fit) |> 
+  round(3)
+```
+
+### Item fit
+```{r}
+itemfit(fit)
+```
+
+
+
+## Theta
+
+```{r}
+plot(fit, theta = c(-3,3))
+```
+
+
+### Svarferlar
+```{r}
+plot(fit, type = "trace", theta = c(-3,3))
+```
+
+```{r}
+itemplot(fit, item = 1, theta_lim = c(-3,3))
+```
+
+
+### Upplýsingafall
+```{r}
+plot(fit, type = "infotrace", theta = c(-3,3))
+```
+
+```{r}
+plot(fit, type = "infoSE")
+```
+
+### Item parametrar
+`a` alfa `b` beta og g er guessing parameter (c)
+```{r}
+coef(fit, IRTpars = TRUE, simplify = TRUE)$items |> 
+  round(3)
+```
+
+## Getum borið saman tvö líkön
+```{r}
+fit2PL <- mirt(data = atrida_safn, model =  1, itemtype = "2PL")
+fit3PL <- mirt(data = atrida_safn, model =  1, itemtype = "3PL")
+anova(fit2PL, fit3PL)
+```
+
+

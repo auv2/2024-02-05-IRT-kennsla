@@ -1,0 +1,21 @@
+project:
+  type: website
+  output-dir: docs
+
+website:
+  title: "2024-02-06-IRT-kennsla"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Heim
+      - setja_upp.qmd
+      - gogn.qmd 
+
+format:
+  html:
+    theme: cosmo
+    css: styles.css
+    toc: true
+
+
+

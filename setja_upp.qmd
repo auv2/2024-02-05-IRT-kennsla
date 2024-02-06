@@ -1,0 +1,16 @@
+---
+title: "Setja upp mirt"
+---
+
+
+## Setjið upp mirt
+
+Þurfið bara að installa `mirt` einu sinni, getið copyað kóðann hér að neðan og límt í consoleinn:
+
+```{r, echo=TRUE, eval=FALSE}
+install.packages("mirt")
+```
+
+![](images/clipboard-2253725318.png)
+
+og svo ýtt á enter. Nánari leiðbeiningar um uppsetningu má finna inn á: <https://www.rdocumentation.org/packages/mirt/versions/1.41>
